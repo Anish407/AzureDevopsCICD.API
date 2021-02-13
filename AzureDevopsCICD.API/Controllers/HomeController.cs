@@ -1,5 +1,6 @@
 ﻿using AzureDevopsCICD.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,19 @@ namespace AzureDevopsCICD.API.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            this.configuration = configuration;
         }
 
         public IActionResult Index()
         {
+            ViewBag.message = configuration["secretvalue"];
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();
